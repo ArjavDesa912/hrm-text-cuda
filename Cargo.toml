@@ -1,0 +1,21 @@
+[package]
+name = "hrm-text-cuda"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+cudarc = { version = "0.12", features = ["cuda-version-from-build-system", "f16", "cublas"] }
+half = { version = "2.4", features = ["num-traits"] }
+thiserror = "1"
+safetensors = "0.4"
+tokenizers = "0.20"
+serde_json = "1"
+reqwest = { version = "0.12", features = ["blocking"] }
+regex = "1"
+url = "2"
+fastrand = "2"
+owo-colors = "4"
+indicatif = "0.17"
+
+[build-dependencies]
+cc = "1"

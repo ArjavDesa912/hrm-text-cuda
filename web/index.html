@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>HRM-Text CUDA</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <div class="app-shell">
+    <aside class="settings-panel" id="settingsPanel">
+      <div class="brand">
+        <div class="brand-mark">H</div>
+        <div>
+          <strong>HRM-Text</strong>
+          <span>CUDA workspace</span>
+        </div>
+      </div>
+
+      <button class="new-chat-button" id="newChatButton" type="button">
+        <span>+</span>
+        New conversation
+      </button>
+
+      <div class="panel-section model-note">
+        <span class="eyebrow">Checkpoint reality</span>
+        <p>This is a pre-alignment base model, not a chat-tuned assistant. Independent prompts are the reliable default.</p>
+      </div>
+
+      <div class="panel-section">
+        <div class="section-heading">
+          <span>Generation</span>
+          <button class="reset-button" id="resetSettingsButton" type="button">Reset</button>
+        </div>
+
+        <label class="control">
+          <span>Response style</span>
+          <select id="styleInput">
+            <option value="reasoning">Reasoning</option>
+            <option value="direct">Direct</option>
+          </select>
+        </label>
+
+        <label class="toggle-control">
+          <span>
+            <strong>Conversation context</strong>
+            <small>Experimental; may reduce output quality.</small>
+          </span>
+          <input id="historyInput" type="checkbox">
+          <i></i>
+        </label>
+
+        <label class="toggle-control research-toggle">
+          <span>
+            <strong>Web research</strong>
+            <small>Search public pages and ground the answer.</small>
+          </span>
+          <input id="webResearchInput" type="checkbox">
+          <i></i>
+        </label>
+
+        <label class="control research-depth">
+          <span>Research depth</span>
+          <select id="researchDepthInput">
+            <option value="quick">Quick - one focused search</option>
+            <option value="deep">Deep - multiple searches</option>
+          </select>
+        </label>
+
+        <label class="control">
+          <span>Prompt prefix</span>
+          <textarea id="systemPromptInput" rows="3" placeholder="Optional behavior or task context"></textarea>
+        </label>
+
+        <label class="control">
+          <span class="control-row">
+            <span>Temperature</span>
+            <output id="temperatureOutput">0.00</output>
+          </span>
+          <input id="temperatureInput" type="range" min="0" max="1.5" step="0.05" value="0">
+        </label>
+
+        <label class="control">
+          <span class="control-row">
+            <span>Top-p</span>
+            <output id="topPOutput">1.00</output>
+          </span>
+          <input id="topPInput" type="range" min="0.05" max="1" step="0.05" value="1">
+        </label>
+
+        <div class="control-grid">
+          <label class="control compact-control">
+            <span>Top-k</span>
+            <input id="topKInput" type="number" min="0" max="65536" step="1" value="0">
+          </label>
+          <label class="control compact-control">
+            <span>Max tokens</span>
+            <input id="maxTokensInput" type="number" min="1" max="1024" step="1" value="256">
+          </label>
+        </div>
+
+        <label class="control">
+          <span class="control-row">
+            <span>Repetition penalty</span>
+            <output id="repetitionOutput">1.00</output>
+          </span>
+          <input id="repetitionInput" type="range" min="0.5" max="1.5" step="0.05" value="1">
+        </label>
+      </div>
+
+      <div class="panel-footer">
+        <span class="status-dot"></span>
+        <span id="deviceLabel">Connecting to local CUDA runtime</span>
+      </div>
+    </aside>
+
+    <main class="chat-panel">
+      <header class="topbar">
+        <button class="mobile-settings-button" id="mobileSettingsButton" type="button" aria-label="Open settings">
+          <span></span><span></span><span></span>
+        </button>
+        <div>
+          <span class="eyebrow">Local inference</span>
+          <h1 id="modelLabel">HRM-Text CUDA</h1>
+        </div>
+        <div class="runtime-pill">
+          <span></span>
+          Ready
+        </div>
+      </header>
+
+      <section class="conversation" id="conversation" aria-live="polite">
+        <div class="empty-state" id="emptyState">
+          <div class="empty-mark">HRM</div>
+          <span class="eyebrow">Local reasoning with optional web evidence</span>
+          <h2>What should the model investigate?</h2>
+          <p>Enable web research to search public pages, read the strongest results, and attach auditable sources to the answer.</p>
+          <div class="suggestions">
+            <button type="button" data-prompt="Explain why the sky is blue in plain language.">Explain a concept</button>
+            <button type="button" data-prompt="Solve this step by step: If 3 notebooks cost $12, what do 7 notebooks cost?">Work through math</button>
+            <button type="button" data-prompt="What are the latest practical advances in small language models?">Research a current topic</button>
+          </div>
+        </div>
+        <div class="message-list" id="messageList"></div>
+      </section>
+
+      <div class="composer-wrap">
+        <form class="composer" id="composer">
+          <textarea id="messageInput" rows="1" placeholder="Message HRM-Text..." aria-label="Message"></textarea>
+          <button id="sendButton" type="submit" aria-label="Send message">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h13M13 6l6 6-6 6"></path>
+            </svg>
+          </button>
+        </form>
+        <p class="composer-note">Enter to send, Shift+Enter for a new line. Generation stays local; research fetches public web pages.</p>
+      </div>
+    </main>
+  </div>
+
+  <div class="panel-backdrop" id="panelBackdrop"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
